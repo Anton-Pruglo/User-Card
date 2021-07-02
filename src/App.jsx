@@ -16,10 +16,10 @@ class App extends React.Component {
     fetch("https://randomuser.me/api/?results=10")
         .then(res => res.json())
         .then(
-            (date) => {
+            (data) => {
               this.setState({
                 isLoaded: true,
-                items: date.results
+                items: data.results
               });
             },
             (error) => {
@@ -36,16 +36,16 @@ class App extends React.Component {
     console.log(items);
     if (error) {
       return <div>Ошибка: {error.message}</div>;
-    } else if (!isLoaded) {
+    }
+    if (!isLoaded) {
       return <div>Загрузка...</div>;
-    } else {
+    }
       return (
           <section className='users'>
-            {items.map((item, index) =>  <Card key={index} item={item} />)}
+            {items.map((item, id) =>  <Card key={id} item={item} />)}
           </section>
       );
     }
-  }
 }
 
 export default App;
