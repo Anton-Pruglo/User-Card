@@ -4,7 +4,7 @@ export class UserCardImage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoaded: false,
+      loading: true,
     };
   }
 
@@ -14,7 +14,7 @@ export class UserCardImage extends Component {
       const img = new Image();
       img.addEventListener('load', () => {
         this.setState({
-          isLoaded: true,
+          loading: false,
         });
       });
       img.src = src;
@@ -23,9 +23,9 @@ export class UserCardImage extends Component {
 
   render() {
     const { src, initials } = this.props;
-    const { isLoaded } = this.state;
+    const { loading } = this.state;
 
-    if (isLoaded) {
+    if (!loading) {
       return (
         <div className="image-wrapper">
           <img className="image" alt="" src={src} />
