@@ -1,38 +1,27 @@
 import './Card.css';
+import { UserCardImage } from './components/UserCardImage';
 
-export const Card = ({item}) => {
-    const { picture, name, location, email } = item;
-    const { first, last } = name;
-    const { large } = picture;
-    const { country } = location;
+export const Card = ({ item }) => {
+  const { picture, name, location, email } = item;
+  const { first, last } = name;
+  const { large } = picture;
+  const { country } = location;
 
-    return (
-        <div className="users">
-            <div className="card">
-                <div className="image-wrapper">
-                    {large
-                        ? <img className="image" alt="" src={large}/>
-                        : <h3 className="image-placeholder" style={{background: '#' + Math.floor(Math.random() * 16777215).toString(16)}}>
-                            {first[0]}
-                            {last[0]}
-                        </h3>
-                    }
-                </div>
-                <h1 className="name">
-                    {first}
-                    {' '}
-                    {last}
-                </h1>
-                <p className="title">
-                    {country}
-                </p>
-                <p>
-                    Email {email}
-                </p>
-            </div>
-        </div>
-    )
-}
+  return (
+    <article className="card">
+      <UserCardImage src={large} initials={`${first[0]}${last[0]}`} />
+      <h1 className="name">
+        {`${first} ${last}`}
+      </h1>
+      <address className="title">
+        {country}
+      </address>
+      <p>
+        Email {email}
+      </p>
+    </article>
+  );
+};
 
 
 

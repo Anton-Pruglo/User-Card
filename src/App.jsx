@@ -1,5 +1,5 @@
-import React from "react";
-import { Card } from "./components/Card";
+import React from 'react';
+import { Card } from './components/Card';
 import './App.css';
 
 class App extends React.Component {
@@ -7,45 +7,50 @@ class App extends React.Component {
     super(props);
     this.state = {
       error: null,
-      isLoaded: false,
-      items: []
+      loading: true,
+      items: [],
     };
   }
 
   componentDidMount() {
-    fetch("https://randomuser.me/api/?results=10")
-        .then(res => res.json())
-        .then(
-            (data) => {
-              this.setState({
-                isLoaded: true,
-                items: data.results
-              });
-            },
-            (error) => {
-              this.setState({
-                isLoaded: true,
-                error
-              });
-            }
-        )
+    this.load();
   }
 
+  load = () => {
+    fetch('https://randomuser.me/api/?results=10')
+      .then(res => res.json())
+      .then((data) => {
+        this.setState({
+          items: data.results,
+        });
+      })
+      .catch((error) => {
+        this.setState({
+          error,
+        });
+      })
+      .finally(() => {
+        this.setState({
+          loading: false,
+        });
+      });
+  };
+
   render() {
-    const { error, isLoaded, items } = this.state;
-    console.log(items);
+    const { error, loading, items } = this.state;
+    console.count('RENDER');
     if (error) {
       return <div>Ошибка: {error.message}</div>;
     }
-    if (!isLoaded) {
+    if (loading) {
       return <div>Загрузка...</div>;
     }
-      return (
-          <section className='users'>
-            {items.map((item, id) =>  <Card key={id} item={item} />)}
-          </section>
-      );
-    }
+    return (
+      <section className="users">
+        {items.map((item) => <Card key={`${item.email} ${item.id.value}`} item={item} />)}
+      </section>
+    );
+  }
 }
 
 export default App;
